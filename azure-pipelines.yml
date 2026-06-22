@@ -9,14 +9,17 @@ trigger:
       - main
 
 stages:
-  - stage: __default
+  - stage: Build
+    displayName: Build Stage
     jobs:
-      - job: Job
+      - job: MavenBuild
+        displayName: Maven Build Job
         pool:
           vmImage: ubuntu-latest
 
         steps:
           - task: Maven@3
+            displayName: Build with Maven
             inputs:
               mavenPomFile: 'artifact1/pom.xml'
               mavenOptions: '-Xmx3072m'
@@ -28,6 +31,7 @@ stages:
               goals: 'clean package'
 
           - task: PublishBuildArtifacts@1
+            displayName: Publish Build Artifacts
             inputs:
               PathtoPublish: 'artifact1/target'
               ArtifactName: 'drop'
